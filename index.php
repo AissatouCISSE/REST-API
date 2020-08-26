@@ -1,5 +1,5 @@
 <?php
-header("form-data: application/json");
+header("content-type: application/json");
 
 use Faker\Factory;
 require_once 'bootstrap.php';
@@ -24,11 +24,29 @@ if($demande=='solde'){
             $tab [] = ['Ce compte n\'existe pas dans la base de donnes'];
         }
     } else {
-        $tab [] = ['Vous n\'qvez envoye le numero'];
+        $tab [] = ['Vous n\'avez pas envoye le numero'];
     }
 
-} else {
-    $tab [] = ['Pas d\'operation'];
+} else if ($demande=='operation') {
+    //$tab [] = ['Pas d\'operation'];
+
+    if(isset($_GET['compte'])){
+        $op = getOperation($_GET['compte']);
+        foreach ($op as $o ) {
+            $t = [];
+            $t[] = ['type Operation'=>$o->getTypeOperation()->getLibelle()];
+            $t[] = ['Montant'=>$o->getMontant()];
+            $t[] = ['Date'=>$o->getDate()];
+            $tab[] = $t;
+        }
+        /* if($op!=null){
+            $tab [] = ['operation'=>$op->getTypeoperation()];
+        } else{
+            $tab [] = ['Aucune operation n\'a ete effectue sur ce compte'];
+        } */
+    } else {
+        $tab [] = ['Ce compte n\'existe pas'];
+    }
 }
 
 echo json_encode($tab,JSON_PRETTY_PRINT);
