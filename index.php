@@ -7,6 +7,8 @@ require_once 'vendor/autoload.php';
 
 require_once   'src/Controllers/ControllerClient.php';
 
+echo $_SERVER["REQUEST_METHOD"];
+
 $tab = [];
 
 //var_dump($_GET['numero']);
