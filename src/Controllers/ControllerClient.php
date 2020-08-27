@@ -17,4 +17,16 @@ function getOperation($id_compte){
     return $operation;
 
 }
+
+function getSoldeclient($id_client){
+
+   $em =getEntityManager();
+   $solde =$em->createQuery("SELECT c FROM Compte c JOIN c.client cl WHERE cl.id=:client")->setParameter('client',$id_client)->getResult();
+   //var_dump($solde->getSolde());
+   //die;
+   return $solde;
+}
 ?>
+
+
+

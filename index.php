@@ -15,7 +15,7 @@ $tab = [];
 
 $demande = explode('/',$_GET['url'])[0];
 
-if($demande=='solde'){
+ if($demande=='solde'){
     
     if(isset($_GET['numero'])){
         $compte = getCompte($_GET['numero']);
@@ -29,7 +29,7 @@ if($demande=='solde'){
         $tab [] = ['Vous n\'avez pas envoye le numero'];
     }
 
-} else if ($demande=='operation') {
+} else  if ($demande=='operation') {
     //$tab [] = ['Pas d\'operation'];
 
     if(isset($_GET['compte'])){
@@ -49,6 +49,18 @@ if($demande=='solde'){
     } else {
         $tab [] = ['Ce compte n\'existe pas'];
     }
+}else if ($demande=='solde_client'){ //affiche les comptes d'un client et leur solde
+    if(isset($_GET['client'])){
+        $solde =getSoldeclient($_GET['client']);
+        foreach($solde as $s){
+            $tableau =  [];
+            $tableau [] = ['numero compte'=>$s->getNumcompte()];
+            $tableau [] = ['solde'=>$s->getSolde()];
+            $tab [] = $tableau;
+        }
+        
+    } 
+
 }
 
 echo json_encode($tab,JSON_PRETTY_PRINT);
